@@ -38,6 +38,7 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
             erCode = exception.getMessage();
         }
 
+        //todo messagesource로 공부하고 수정하기
         try {
             baseModel.setCode(erCode);
             baseModel.setMessage("test");
