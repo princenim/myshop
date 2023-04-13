@@ -1,7 +1,9 @@
 package shop.shop.domain;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
@@ -16,6 +18,8 @@ import java.util.List;
 @Table(name = "orders")
 @Getter
 @Setter
+//이렇게 엔티티를 protected 해줌으로써 외부에서 new로 객체 생성을 막아 set을 막을 수 있고,  밑의 생성 메서드를 사용하게끔 할 수 있다.
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Order {
 
     @Id

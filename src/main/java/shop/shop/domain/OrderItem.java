@@ -1,7 +1,9 @@
 package shop.shop.domain;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import shop.shop.domain.Item.Item;
 
@@ -12,6 +14,8 @@ import shop.shop.domain.Item.Item;
 @Entity
 @Getter
 @Setter
+//이렇게 엔티티를 protected 해줌으로써 외부에서 new로 객체 생성을  막을 수 있고, 밑의 생성메서드를 사용하게끔 할 수 있다.
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class OrderItem {
 
     @Id
@@ -42,6 +46,9 @@ public class OrderItem {
     public int getTotalPrice() {
         return getOrderPrice() * getCount();
     }
+
+
+
 
     //생성메서드
     public static OrderItem createOrderItem(Item item, int orderPrice, int count) {
