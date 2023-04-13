@@ -26,7 +26,7 @@ public class MemberRepository {
     }
 
     //id로 조회
-    private Member findOne(Long id) {
+    public Member findOne(Long id) {
         //id 값으로 멤버를 찾아서 반환
         return em.find(Member.class, id);
     }
