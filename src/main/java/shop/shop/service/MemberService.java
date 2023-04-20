@@ -46,7 +46,6 @@ public class MemberService {
         }
     }
 
-
     //2. 회원 전체 조회
     public List<Member> findMember() {
         return memberRepository.findAll();

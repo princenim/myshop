@@ -11,6 +11,8 @@ import shop.shop.domain.Address;
 import shop.shop.domain.Member;
 import shop.shop.service.MemberService;
 
+import java.util.List;
+
 /**
  * @author hazel
  */
@@ -53,4 +55,11 @@ public class MemberController {
     }
 
 
+     // ! api를 만들 때는 절대 entity를 반환하면 안된다.
+    @GetMapping(value = "/members")
+    public String list(Model model) {
+        List<Member> members = memberService.findMember();
+        //db에서 가져온 목록 화면에 넘기기
+        model.addAttribute("members", members);
+        return "members/memberList"; }
 }
