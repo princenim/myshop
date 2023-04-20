@@ -19,7 +19,7 @@ import java.util.List;
 @Getter
 @Setter
 //이렇게 엔티티를 protected 해줌으로써 외부에서 new로 객체 생성을 막아 set을 막을 수 있고,  밑의 생성 메서드를 사용하게끔 할 수 있다.
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+//@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Order {
 
     @Id
@@ -29,27 +29,27 @@ public class Order {
 
     //order와 멤버는 다대일 관계
     //order의 입장에서 다대일
-    @ManyToOne(fetch = FetchType.LAZY)
     //연관관계 매핑하기 - 연관관계의 주인
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
-    private Member member;
+    private Member member; //주문 회원
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     //cascade : entity의 상태변화를 전파시키는 옵션
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> orderItems = new ArrayList<>();
 
 
-    //1대 1관계는 fk를 아무데나 넣어도됨.ㅈ
+    //1대 1관계는 fk를 아무데나 넣어도됨.
     //주로 접근을 많이 하는 곳에 넣는게 좋으므로 주문을 연관관계 주인으로 결정
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "delivery_id")
-    private Delivery delivery;
+    private Delivery delivery; //배송정보
 
-    //테이블 생성시 orderDate -> order_data로 변경됨
-    private LocalDateTime orderDate; // 주문시간
+    //테이블 생성시 orderDate -> order_date로 변경됨
+    private LocalDateTime orderDate; //주문시간
 
     @Enumerated(EnumType.STRING)
-    private OrderStatus status; //주문상태 [ORDER, CANCEL] - enum
+    private OrderStatus status; //주문상태 [ORDER, CANCEL]
 
 
     //todo 연관관계 편의 메소드
@@ -69,12 +69,13 @@ public class Order {
     }
 
 
-    public static Order createOrder(Member member, Delivery delivery, OrderItem... orderItems) {
-        //==생성 메서드 == -> new로 객체를 생성해 set하는 방식이 아니라 생성할때부터 이 메소드를 호출하도록해 한번에 생성되도록 해야함
+    //==생성 메서드 ==//
+    // -> new로 객체를 생성해 set하는 방식이 아니라 생성할때부터 이 메소드를 호출하도록해 한번에 생성되도록 해야함
+    public static Order createOrder(Member member, Delivery delivery,
+                                    OrderItem... orderItems) {
         Order order = new Order();
         order.setMember(member);
         order.setDelivery(delivery);
-
         for (OrderItem orderItem : orderItems) {
             order.addOrderItem(orderItem);
         }

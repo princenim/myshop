@@ -4,14 +4,12 @@ import lombok.RequiredArgsConstructor;
 import org.aspectj.weaver.ast.Or;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import shop.shop.domain.Delivery;
+import shop.shop.domain.*;
 import shop.shop.domain.Item.Item;
-import shop.shop.domain.Member;
-import shop.shop.domain.Order;
-import shop.shop.domain.OrderItem;
 import shop.shop.repository.ItemRepository;
 import shop.shop.repository.MemberRepository;
 import shop.shop.repository.OrderRepository;
+import shop.shop.repository.OrderSearch;
 
 import java.util.List;
 
@@ -20,7 +18,7 @@ import java.util.List;
  */
 
 @Service
-@Transactional(readOnly = true)
+@Transactional
 @RequiredArgsConstructor
 public class OrderService {
 
@@ -32,14 +30,17 @@ public class OrderService {
      * 주문
      */
 
-    public Long order(Long memebrId, Long itemId, int count) {
+    public Long order(Long memberId, Long itemId, int count) {
+
         //엔티티 조회
-        Member member = memberRepository.findOne(memebrId);
+        Member member = memberRepository.findOne(memberId);
         Item item = itemRepository.findOne(itemId);
+
 
         //배송정보 생성
         Delivery delivery = new Delivery();
         delivery.setAddress(member.getAddress());
+        delivery.setStatus(DeliveryStatus.READY);
 
         //주문상품 생성
         OrderItem orderItem = OrderItem.createOrderItem(item, item.getPrice(), count);
@@ -51,7 +52,6 @@ public class OrderService {
         //왜 orderItem과 delivery가 있는데도 order만 save할까? 그 이유는 cascade = CascadeType.ALL로 상태변화를 전이시켰기때문
         //즉, orderItem도 save 하고 , delivery도 save 시킴
         orderRepository.save(order);
-
         return order.getId();
     }
 
@@ -66,19 +66,16 @@ public class OrderService {
         //주문 취소
         order.cancel();
 
-
         //jpa의 강점 - 변경 내역 감지라고 엔티티 안의 데이터를 바꾸면 Jpa가 감지(더티 체킹)를 해 알아서 업데이트 쿼리를 날려준다.
-
-
     }
 
 
     /**
      * 주문 검색
      */
-//     public List<Order> findOrders(OrderSearch orderSearch){
-//         return orderRepository.findAll(orderSearch);
-//     }
+     public List<Order> findOrders(OrderSearch orderSearch){
+         return orderRepository.findAllByString(orderSearch);
+     }
 
 
 }
