@@ -22,7 +22,7 @@ public class Member {
     private long id;
 
     private String name;
-    //내장타입을 포함했다라는 의미
+    //내장타입을 포함했다라는 의미xz
     @Embedded
     private Address address;
 
