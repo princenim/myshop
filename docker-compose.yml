@@ -1,23 +1,23 @@
-version: "3"
+version: "2.1"
 services:
-  #이건 서비스 명입니다.
-  test_database:
-    # 컨테이너 이름을 설정하고 싶다면 작성하세요.
-    # container_name: test_database
+  database:
     image: mysql
-    restart: always
     environment:
       MYSQL_USER : hazel
-      MYSQL_DATABASE: testdb
+      MYSQL_DATABASE: test
       MYSQL_PASSWORD: hazel
       MYSQL_ROOT_PASSWORD: hazel
     ports:
-      - 3307:3306 # local : docker
+      - "3307:3306"
 
-  test_application:
+  application:
     build: .
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://database:3306/test
+      SPRING_DATASOURCE_USERNAME: hazel
+      SPRING_DATASOURCE_PASSWORD: hazel
     ports:
-      - 8089:8080
+      - "8080:8080"
     restart: always
     depends_on:
-      - test_database
+      - database

@@ -6,12 +6,13 @@
 #    password:
 #    driver-class-name: org.h2.Driver
 
+#jdbc:mysql://[mysql-docker-container-name]:[mysql-port]/[db-name] 형식
+
 #mysql
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql:///test_database:3306/testdb?serverTimezone=UTC
-    #jdbc:mysql://[mysql-docker-container-name]:[mysql-port]/[db-name] 형식
+    url: jdbc:mysql://database:3306/test?useSSL=false&allowPublicKeyRetrieval=true
     username: hazel
     password: hazel
 
