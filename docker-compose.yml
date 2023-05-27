@@ -1,0 +1,23 @@
+version: "3"
+services:
+  #이건 서비스 명입니다.
+  test_database:
+    # 컨테이너 이름을 설정하고 싶다면 작성하세요.
+    # container_name: test_database
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_USER : hazel
+      MYSQL_DATABASE: testdb
+      MYSQL_PASSWORD: hazel
+      MYSQL_ROOT_PASSWORD: hazel
+    ports:
+      - 3307:3306 # local : docker
+
+  test_application:
+    build: .
+    ports:
+      - 8089:8080
+    restart: always
+    depends_on:
+      - test_database

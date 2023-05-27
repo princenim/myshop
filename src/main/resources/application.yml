@@ -10,10 +10,10 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/example?serverTimezone=UTC&characterEncoding=UTF-8
-    #example이 db이름
-    username: root
-    password: 1234
+    url: jdbc:mysql:///test_database:3306/testdb?serverTimezone=UTC
+    #jdbc:mysql://[mysql-docker-container-name]:[mysql-port]/[db-name] 형식
+    username: hazel
+    password: hazel
 
   jpa:
     hibernate:
