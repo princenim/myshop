@@ -9,12 +9,20 @@
 #jdbc:mysql://[mysql-docker-container-name]:[mysql-port]/[db-name] 형식
 
 #mysql
+#spring:
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://database:3306/test?useSSL=false&allowPublicKeyRetrieval=true
+#    username: hazel
+#    password: hazel
+
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://database:3306/test?useSSL=false&allowPublicKeyRetrieval=true
-    username: hazel
-    password: hazel
+    url: jdbc:mysql://localhost:3306/example?serverTimezone=UTC&characterEncoding=UTF-8
+    #example이 db이름
+    username: root
+    password: 1234
 
   jpa:
     hibernate:
